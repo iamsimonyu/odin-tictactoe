@@ -117,8 +117,9 @@ const game = (() => {
         // by e.g. 2-1-(null) not just 1-1-1
         // i.e     O-X-(null) not just X-X-X
         if (sum === 6 || sum === 3) {
-          winner = sum % 2;
-          console.log(`!!!! WINNER ---> Player ${winner}`);
+          winner = sum / 3;
+          console.log("WINNER! player" + winner)
+          document.querySelector("#playerName" + winner).textContent = "WINNER"
         }
       }
     }
