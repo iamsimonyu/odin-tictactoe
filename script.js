@@ -14,7 +14,7 @@ const gameBoard = (() => {
       boardContainer.removeChild(boardContainer.firstChild);
     }
 
-    // render board
+    // render board (array)
     Object.keys(board).forEach(function(key) {
       const square = document.createElement('div');
       square.classList.add('square');
@@ -37,8 +37,8 @@ const gameBoard = (() => {
   };
 
   const clicked = (index) => {
-    board[index] = 'x';
-    console.log("click!")
+    const player = game.getPlayerTurn();
+    board[index] = (player === '1') ? 'X' : 'O';
     game.turn();
     display();
   };
@@ -51,6 +51,12 @@ const gameBoard = (() => {
 
 const game = (() => {
   let turnsLeft = 9;
+
+  const getPlayerTurn = () => {
+    player = (turnsLeft % 2 === 0) ? '2' : '1';
+    return player;
+  };
+
   const turn = () => {
     turnsLeft -= 1;
 
@@ -61,12 +67,13 @@ const game = (() => {
     });
 
     // "player" returns whose turn it is (1 or 2)
-    const player = (turnsLeft % 2 === 0) ? 2 : 1;
+    const player = getPlayerTurn();
     document.querySelector(`#playerMarker${player}`).textContent = ">";
-    console.log(turnsLeft);
+    console.log("turns left: " + turnsLeft);
   };
 
   return {
+    getPlayerTurn,
     turn,
   }
 })();
