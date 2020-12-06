@@ -22,7 +22,12 @@ const gameBoard = (() => {
       // if square has been clicked already, add 'clicked' class
       (board[key] !== '') ? square.classList.add('clicked') : null;
       const text = document.createElement('div');
-      text.textContent = board[key];
+      text.textContent =
+        (board[key] === '')
+          ? ''
+          : (board[key] === '1')
+            ? 'X'
+            : 'O';
       square.appendChild(text);
       boardContainer.appendChild(square);
     });
@@ -38,8 +43,9 @@ const gameBoard = (() => {
 
   const clicked = (index) => {
     const player = game.getPlayerTurn();
-    board[index] = (player === '1') ? 'X' : 'O';
-    game.turn();
+    board[index] = (player === '1') ? '1' : '2';
+    game.checkWinner(index);
+    game.changeTurn();
     display();
   };
 
@@ -57,7 +63,7 @@ const game = (() => {
     return player;
   };
 
-  const turn = () => {
+  const changeTurn = () => {
     turnsLeft -= 1;
 
     // clear all textContent. [id^='xx'] matches all ids starting xx
@@ -72,9 +78,13 @@ const game = (() => {
     console.log("turns left: " + turnsLeft);
   };
 
+  const checkWinner = () => {
+  };
+
   return {
     getPlayerTurn,
-    turn,
+    changeTurn,
+    checkWinner,
   }
 })();
 
