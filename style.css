@@ -1,5 +1,6 @@
 #container {
   display: flex;
+  flex-direction: column;
 }
 
 #board {
@@ -7,18 +8,32 @@
   flex-direction: row;
   box-sizing: border-box;
   flex-wrap: wrap;
-  width: 900px;
+  width: 810px;
 }
 
 .square {
   display: flex;
   box-sizing: border-box;
   border: 1px solid grey;
-  width: 300px;
-  height: 300px;
+  width: 270px;
+  height: 270px;
   align-items: center;
   justify-content: center;
   margin: auto;
   font-size: xx-large;
   cursor: pointer;
+}
+
+.players {
+  padding: 1em;
+  font-size: xx-large;
+}
+
+.player-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.player-marker {
+  padding-right: 0.5em;
 }

@@ -4,20 +4,13 @@ const gameBoard = (() => {
   let board = [];
 
   for (i = 0; i < 9; i++) {
-    board.push('x')
+    board.push('')
   }
 
   const getBoard = () => board;
 
-  return {
-    getBoard
-  };
-})();
-
-document.querySelector("#click").addEventListener('click', () => {console.log(gameBoard.getBoard())});
-
-const display = () => {
-  const board = document.querySelector("#board");
+  const display = () => {
+    const board = document.querySelector("#board");
 
     // clear existing board
     while (board.firstChild) {
@@ -30,7 +23,6 @@ const display = () => {
       square.classList.add('square');
       square.setAttribute('data-index', key);
       const text = document.createElement('div');
-      text.textContent = key;
       square.appendChild(text);
       board.appendChild(square);
     });
@@ -42,11 +34,17 @@ const display = () => {
         userPlay(square);
       });
     });
-}
+  }
+
+  return {
+    getBoard,
+    display
+  };
+})();
 
 const userPlay = (square) => {
   const clicked = square.dataset.index;
   console.log("you clicked: " + clicked);
 }
 
-display();
+gameBoard.display();
