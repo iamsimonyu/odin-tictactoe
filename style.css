@@ -24,6 +24,10 @@
   cursor: pointer;
 }
 
+.clicked {
+  cursor: not-allowed;
+}
+
 .players {
   padding: 1em;
   font-size: xx-large;

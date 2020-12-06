@@ -2,7 +2,6 @@ const gameBoard = (() => {
 
   // initialise gameboard
   let board = [];
-
   for (i = 0; i < 9; i++) {
     board.push('')
   }
@@ -20,6 +19,8 @@ const gameBoard = (() => {
       const square = document.createElement('div');
       square.classList.add('square');
       square.setAttribute('data-index', key);
+      // if square has been clicked already, add 'clicked' class
+      (board[key] !== '') ? square.classList.add('clicked') : null;
       const text = document.createElement('div');
       text.textContent = board[key];
       square.appendChild(text);
@@ -27,7 +28,7 @@ const gameBoard = (() => {
     });
 
     // add event listeners to squares
-    const squares = document.querySelectorAll(".square");
+    const squares = document.querySelectorAll(".square:not(.clicked)");
     squares.forEach((square) => {
       square.addEventListener('click', () => {
         userPlay(square);
@@ -37,7 +38,8 @@ const gameBoard = (() => {
 
   const clicked = (index) => {
     board[index] = 'x';
-    console.log(board);
+    console.log("click!")
+    game.turn();
     display();
   };
 
@@ -47,10 +49,21 @@ const gameBoard = (() => {
   };
 })();
 
+const game = (() => {
+  let turnsLeft = 9;
+  const turn = () => {
+    turnsLeft -= 1;
+    console.log(turnsLeft);
+  };
+
+  return {
+    turn,
+  }
+})();
+
 const userPlay = (square) => {
   const clicked = square.dataset.index;
-  console.log("you clicked: " + clicked);
-  gameBoard.clicked(clicked);
+  gameBoard.clicked(clicked);  
 }
 
 gameBoard.display();
