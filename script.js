@@ -53,6 +53,16 @@ const game = (() => {
   let turnsLeft = 9;
   const turn = () => {
     turnsLeft -= 1;
+
+    // clear all textContent. [id^='xx'] matches all ids starting xx
+    const playerMarkers = document.querySelectorAll("div[id^='playerMarker']");
+    playerMarkers.forEach((marker) => {
+      marker.textContent = "";
+    });
+
+    // "player" returns whose turn it is (1 or 2)
+    const player = (turnsLeft % 2 === 0) ? 2 : 1;
+    document.querySelector(`#playerMarker${player}`).textContent = ">";
     console.log(turnsLeft);
   };
 
