@@ -7,6 +7,7 @@ const gameBoard = (() => {
   }
 
   const display = () => {
+    console.log("rendering board")
     const boardContainer = document.querySelector("#board");
 
     // clear existing board
@@ -34,12 +35,17 @@ const gameBoard = (() => {
 
     // add event listeners to squares
     const squares = document.querySelectorAll(".square:not(.clicked)");
+    squares.forEach(square => square.addEventListener('click', userPlay));
+  };
+
+  const removeEventListeners = () => {
+    const squares = document.querySelectorAll(".square");
     squares.forEach((square) => {
-      square.addEventListener('click', () => {
-        userPlay(square);
-      });
+      square.removeEventListener('click', userPlay);
+      console.log("REMOVING")
     });
   };
+
 
   const clicked = (index) => {
     const player = game.getPlayerTurn();
@@ -57,6 +63,7 @@ const gameBoard = (() => {
     display,
     clicked,
     getSquare,
+    removeEventListeners,
   };
 })();
 
@@ -80,8 +87,8 @@ const game = (() => {
     // "player" returns whose turn it is (1 or 2)
     const player = getPlayerTurn();
     document.querySelector(`#playerMarker${player}`).textContent = ">";
-    console.log("turns left: " + turnsLeft);
-    console.log("--------------------")
+    // console.log("turns left: " + turnsLeft);
+    // console.log("--------------------")
   };
 
   const checkWinner = () => {
@@ -103,13 +110,13 @@ const game = (() => {
       let emptySquareExists = false;
       for (let j = 0; j < winningAxes[i].length; j++) {
         const square = Number(gameBoard.getSquare(winningAxes[i][j]));
-        console.log(`checking combo ${i} -> cell ${winningAxes[i][j]}: ${square}`);
+        // console.log(`checking combo ${i} -> cell ${winningAxes[i][j]}: ${square}`);
         sum += square;
         // if a square in one of the 3 positions is empty, set the flag to true
         if (square === 0) {emptySquareExists = true};
       }
-      console.log(`result: ${sum}`);
-      console.log(`** empty square? ${emptySquareExists}`)
+      // console.log(`result: ${sum}`);
+      // console.log(`** empty square? ${emptySquareExists}`)
 
       if (!emptySquareExists) {
         // if no empty square, then check for sum (winner)
@@ -118,8 +125,9 @@ const game = (() => {
         // i.e     O-X-(null) not just X-X-X
         if (sum === 6 || sum === 3) {
           winner = sum / 3;
-          console.log("WINNER! player" + winner)
-          document.querySelector("#playerName" + winner).textContent = "WINNER"
+          // console.log("WINNER! player" + winner);
+          document.querySelector("#playerName" + winner).textContent = `Player ${winner} 👑`;
+          gameBoard.removeEventListeners();
         }
       }
     }
@@ -132,8 +140,12 @@ const game = (() => {
   }
 })();
 
-const userPlay = (square) => {
-  const clicked = square.dataset.index;
+const userPlay = (event) => {
+  // use event instead of passing square in userPlay so that we can remove the
+  // event handler without needing argument
+  // see https://medium.com/@DavideRama/removeeventlistener-and-anonymous-functions-ab9dbabd3e7b
+  const clicked = event.target.dataset.index;
+  console.log(`You clicked: ${clicked}`)
   gameBoard.clicked(clicked);  
 }
 
