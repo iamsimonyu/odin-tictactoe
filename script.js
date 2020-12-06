@@ -33,9 +33,11 @@ const gameBoard = (() => {
       boardContainer.appendChild(square);
     });
 
-    // add event listeners to squares
-    const squares = document.querySelectorAll(".square:not(.clicked)");
-    squares.forEach(square => square.addEventListener('click', userPlay));
+    // add event listeners to squares - unless game is over
+    if (game.turnsLeft !== 0) {
+      const squares = document.querySelectorAll(".square:not(.clicked)");
+      squares.forEach(square => square.addEventListener('click', userPlay));
+    }
   };
 
   const removeEventListeners = () => {
@@ -127,6 +129,7 @@ const game = (() => {
           winner = sum / 3;
           // console.log("WINNER! player" + winner);
           document.querySelector("#playerName" + winner).textContent = `Player ${winner} 👑`;
+          game.turnsLeft = 0;
           gameBoard.removeEventListeners();
         }
       }
@@ -146,7 +149,7 @@ const userPlay = (event) => {
   // see https://medium.com/@DavideRama/removeeventlistener-and-anonymous-functions-ab9dbabd3e7b
   const clicked = event.target.dataset.index;
   console.log(`You clicked: ${clicked}`)
-  gameBoard.clicked(clicked);  
+  gameBoard.clicked(clicked);
 }
 
 gameBoard.display();
