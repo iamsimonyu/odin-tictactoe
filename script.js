@@ -24,7 +24,15 @@ const display = () => {
       board.removeChild(board.firstChild);
     }
 
-    Object.keys(gameBoard.board).forEach(function(key) {
-
+    // render board
+    Object.keys(gameBoard.getBoard()).forEach(function(key) {
+      const square = document.createElement('div');
+      square.classList.add('square');
+      const text = document.createElement('div');
+      text.textContent = key;
+      square.appendChild(text);
+      board.appendChild(square);
     });
 }
+
+display();
