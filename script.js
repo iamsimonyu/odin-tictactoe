@@ -49,9 +49,14 @@ const gameBoard = (() => {
     display();
   };
 
+  const getSquare = (index) => {
+    return board[index];
+  };
+
   return {
     display,
-    clicked
+    clicked,
+    getSquare,
   };
 })();
 
@@ -76,9 +81,49 @@ const game = (() => {
     const player = getPlayerTurn();
     document.querySelector(`#playerMarker${player}`).textContent = ">";
     console.log("turns left: " + turnsLeft);
+    console.log("--------------------")
   };
 
   const checkWinner = () => {
+    let winner = "";
+
+    const winningAxes = [
+      [0,1,2],
+      [3,4,5],
+      [6,7,8],
+      [0,3,6],
+      [1,4,7],
+      [2,5,8],
+      [0,4,8],
+      [2,4,6],
+    ]
+
+    for (let i = 0; i < winningAxes.length; i++) {
+      let sum = 0;
+      let emptySquareExists = 0;
+      for (let j = 0; j < winningAxes[i].length; j++) {
+        const square = Number(gameBoard.getSquare(winningAxes[i][j]));
+        console.log(`checking combo ${i} -> cell ${winningAxes[i][j]}: ${square}`);
+        sum += square;
+        // if a square in one of the 3 positions is empty, set the flag to 1
+        emptySquareExists = (square === 0) ? 1 : 0;
+      }
+      console.log(`result: ${sum}`);
+
+      if (!emptySquareExists) {
+        // if no empty square, then check for sum (winner)
+        // important to check for empty squares b/c possible to get sum of 3
+        // by e.g. 2-1-(null) not just 1-1-1
+        // i.e     O-X-(null) not just X-X-X
+        if (sum === 6) {
+          winner = 2;
+          console.log("WINNER!!!!!! Player TWO");
+        } else if (sum === 3) {
+          winner = 1;
+          console.log("WINNER!!!!!! Player ONE");
+        }
+      }
+    }
   };
 
   return {
