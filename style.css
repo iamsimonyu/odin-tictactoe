@@ -19,4 +19,6 @@
   align-items: center;
   justify-content: center;
   margin: auto;
+  font-size: xx-large;
+  cursor: pointer;
 }
