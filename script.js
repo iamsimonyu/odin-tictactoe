@@ -7,24 +7,23 @@ const gameBoard = (() => {
     board.push('')
   }
 
-  const getBoard = () => board;
-
   const display = () => {
-    const board = document.querySelector("#board");
+    const boardContainer = document.querySelector("#board");
 
     // clear existing board
-    while (board.firstChild) {
-      board.removeChild(board.firstChild);
+    while (boardContainer.firstChild) {
+      boardContainer.removeChild(boardContainer.firstChild);
     }
 
     // render board
-    Object.keys(gameBoard.getBoard()).forEach(function(key) {
+    Object.keys(board).forEach(function(key) {
       const square = document.createElement('div');
       square.classList.add('square');
       square.setAttribute('data-index', key);
       const text = document.createElement('div');
+      text.textContent = board[key];
       square.appendChild(text);
-      board.appendChild(square);
+      boardContainer.appendChild(square);
     });
 
     // add event listeners to squares
@@ -34,17 +33,24 @@ const gameBoard = (() => {
         userPlay(square);
       });
     });
-  }
+  };
+
+  const clicked = (index) => {
+    board[index] = 'x';
+    console.log(board);
+    display();
+  };
 
   return {
-    getBoard,
-    display
+    display,
+    clicked
   };
 })();
 
 const userPlay = (square) => {
   const clicked = square.dataset.index;
   console.log("you clicked: " + clicked);
+  gameBoard.clicked(clicked);
 }
 
 gameBoard.display();
