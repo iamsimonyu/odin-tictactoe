@@ -100,27 +100,25 @@ const game = (() => {
 
     for (let i = 0; i < winningAxes.length; i++) {
       let sum = 0;
-      let emptySquareExists = 0;
+      let emptySquareExists = false;
       for (let j = 0; j < winningAxes[i].length; j++) {
         const square = Number(gameBoard.getSquare(winningAxes[i][j]));
         console.log(`checking combo ${i} -> cell ${winningAxes[i][j]}: ${square}`);
         sum += square;
-        // if a square in one of the 3 positions is empty, set the flag to 1
-        emptySquareExists = (square === 0) ? 1 : 0;
+        // if a square in one of the 3 positions is empty, set the flag to true
+        if (square === 0) {emptySquareExists = true};
       }
       console.log(`result: ${sum}`);
+      console.log(`** empty square? ${emptySquareExists}`)
 
       if (!emptySquareExists) {
         // if no empty square, then check for sum (winner)
         // important to check for empty squares b/c possible to get sum of 3
         // by e.g. 2-1-(null) not just 1-1-1
         // i.e     O-X-(null) not just X-X-X
-        if (sum === 6) {
-          winner = 2;
-          console.log("WINNER!!!!!! Player TWO");
-        } else if (sum === 3) {
-          winner = 1;
-          console.log("WINNER!!!!!! Player ONE");
+        if (sum === 6 || sum === 3) {
+          winner = sum % 2;
+          console.log(`!!!! WINNER ---> Player ${winner}`);
         }
       }
     }
