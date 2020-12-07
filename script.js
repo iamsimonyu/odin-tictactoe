@@ -52,7 +52,7 @@ const gameBoard = (() => {
 
     // add 'click' event listeners to squares to allow users to place markers
     // unless game is over    
-    if (game.getTurnsLeft !== 0) {
+    if (game.getTurnsLeft() !== 0) {
       const squares = document.querySelectorAll(".square:not(.clicked)");
       squares.forEach(square => square.addEventListener('click', userPlay));
     }
