@@ -1,6 +1,9 @@
 #container {
   display: flex;
   flex-direction: column;
+  width: 80%;
+  margin: auto;
+  align-items: center;
 }
 
 #board {
@@ -8,15 +11,15 @@
   flex-direction: row;
   box-sizing: border-box;
   flex-wrap: wrap;
-  width: 810px;
+  width: 690px;
 }
 
 .square {
   display: flex;
   box-sizing: border-box;
   border: 1px solid grey;
-  width: 270px;
-  height: 270px;
+  width: 230px;
+  height: 230px;
   align-items: center;
   justify-content: center;
   margin: auto;
@@ -42,4 +45,20 @@
 .player-marker {
   padding: 0em;
   width: 1em;
+}
+
+input {
+  font-size: xx-large;
+  margin-bottom: 1em;
+  margin-right: 0.5em;
+}
+
+.winMessage {
+  visibility: hidden;
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  border-radius: 0.25rem;
+  padding: 0.5em;
+  height: 1.3x;
 }

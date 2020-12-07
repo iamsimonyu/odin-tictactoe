@@ -7,7 +7,6 @@ const gameBoard = (() => {
   }
 
   const display = () => {
-    console.log("rendering board")
     const boardContainer = document.querySelector("#board");
 
     // clear existing board
@@ -115,6 +114,18 @@ const game = (() => {
     // console.log("--------------------")
   };
 
+  // displays elements that show who has won
+  const showWinner = (winner) => {
+    // place a crown next to the winning player
+    document.querySelector("#playerWinner" + winner).textContent = "👑";
+
+    // set winner <div> message above the board
+    const winnerName = document.querySelector(`#playerName${winner}`).value;
+    const winMessage = document.querySelector(".winMessage");
+    winMessage.textContent = `${winnerName} has won!`;
+    winMessage.style.visibility = "visible";
+  }
+
   const checkWinner = () => {
     let winner = "";
 
@@ -166,10 +177,8 @@ const game = (() => {
           // can identify player number by just dividing by 3
           winner = sum / 3;
 
-          // console.log("WINNER! player" + winner);
-
-          // place a crown next to the winning player
-          document.querySelector("#playerName" + winner).textContent = `Player ${winner} 👑`;
+          // display elements to show who has won
+          showWinner(winner);
 
           // change turns left to zero because game is over!
           game.turnsLeft = 0;
