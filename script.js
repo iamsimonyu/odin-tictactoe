@@ -230,7 +230,6 @@ const game = (() => {
   };
 
   const reset = () => {
-    console.log("click!")
     // reset turn counter
     turnsLeft = 9;
 
@@ -240,6 +239,10 @@ const game = (() => {
     // hide outcome message
     const gameOutcome = document.querySelector("#gameOutcome");
     gameOutcome.style.visibility = "hidden";
+
+    // remove any crown "winning" indicators 
+    const playerWinners = document.querySelectorAll("div[id^='playerWinner']");
+    playerWinners.forEach(item => item.textContent = "");
   };
 
   return {
