@@ -90,7 +90,7 @@ const game = (() => {
 
   // This function determines what to do when the user clicks a given square.
   // The clicked square is passed via "index"
-  const clicked = (index) => {
+  const takeTurn = (index) => {
 
     // set the element in the board to 1 or 2 depending on whose turn it was
     gameBoard.setSquare(index);
@@ -166,7 +166,6 @@ const game = (() => {
   // checks if a win condition has been met (3 in a row)
   // OR if it's a tie (no-one has won and there are no more turns left)
   const checkIfWinner = () => {
-    let winner = "";
 
     // 8 ways to win (3 columns, 3 rows, 2 diagonals)
     const winningAxes = [
@@ -212,7 +211,7 @@ const game = (() => {
           // if sum = 6 or 3, and all 3 squares are filled in, then either
           // player 1 has won (three 'X's = 3) or player 2 has won (three 'O's = 6)
           // can identify player number by just dividing by 3
-          return winner = sum / 3;
+          return sum / 3;
         }
       }
     }
@@ -220,7 +219,7 @@ const game = (() => {
 
   return {
     getPlayerTurn,
-    clicked,
+    takeTurn,
   }
 })();
 
@@ -235,7 +234,7 @@ const userPlay = (event) => {
   // console.log(`You clicked: ${clicked}`)
 
   // pass the clicked square (i.e. 0-8) to the clicked function
-  game.clicked(clickedSquare);
+  game.takeTurn(clickedSquare);
 }
 
 gameBoard.display();
