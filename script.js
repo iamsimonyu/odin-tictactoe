@@ -99,9 +99,23 @@ const game = (() => {
     turnsLeft -=1;
 
     // check if there's a winner OR if it's a tie
-    checkGameOutcome(index);
+    // outcome = 1 if P1 has won; 2 if P2 has won; tie if game over
+    const outcome = checkGameOutcome(index);
+    console.log(`outcome: ${outcome}`);
+
+    if (outcome === 1 || outcome === 2) {
+      // display elements to show who has won
+      showWinner(outcome);
+
+      // change turns left to zero because game is over!
+      game.turnsLeft = 0;
+
+      // users can no longer click remaining squares because game is over!
+      gameBoard.removeEventListeners();
+    }
     
-    changeTurnMarker();
+    // don't change turn marker if there's no more turns left
+    if (turnsLeft > 0) { changeTurnMarker() };
 
     gameBoard.display();
   };
@@ -169,8 +183,6 @@ const game = (() => {
         // if a square in one of the 3 positions is empty, set the flag to true
         if (square === 0) {emptySquareExists = true};
       }
-      // console.log(`result: ${sum}`);
-      // console.log(`** empty square? ${emptySquareExists}`)
 
       // at this point, we know the sum of the winning axis.
       // if sum = 6, player 2 has won (since player 2's squares are represented with '2' in the 'board' array)
@@ -183,16 +195,7 @@ const game = (() => {
           // if sum = 6 or 3, and all 3 squares are filled in, then either
           // player 1 has won (three 'X's = 3) or player 2 has won (three 'O's = 6)
           // can identify player number by just dividing by 3
-          winner = sum / 3;
-
-          // display elements to show who has won
-          showWinner(winner);
-
-          // change turns left to zero because game is over!
-          game.turnsLeft = 0;
-
-          // users can no longer click remaining squares because game is over!
-          gameBoard.removeEventListeners();
+          return winner = sum / 3;
         }
       }
     }
