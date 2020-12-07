@@ -100,6 +100,8 @@ const game = (() => {
 
     // check if there's a winner OR if it's a tie
     checkGameOutcome(index);
+    
+    changeTurnMarker();
 
     gameBoard.display();
   };
