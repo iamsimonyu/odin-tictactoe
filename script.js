@@ -100,13 +100,13 @@ const game = (() => {
   const changeTurn = () => {
     turnsLeft -= 1;
 
-    // clear all textContent. [id^='xx'] matches all ids starting xx
+    // put ">" next to player whose turn it is. First, clear the ">" div
     const playerMarkers = document.querySelectorAll("div[id^='playerMarker']");
     playerMarkers.forEach((marker) => {
       marker.textContent = "";
     });
 
-    // "player" returns whose turn it is (1 or 2)
+    // then, add the ">" next to player's name
     const player = getPlayerTurn();
     document.querySelector(`#playerMarker${player}`).textContent = ">";
 
