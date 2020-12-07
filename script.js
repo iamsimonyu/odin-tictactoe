@@ -48,6 +48,15 @@ const gameBoard = (() => {
     }
   };
 
+  // set element in Board array to player (1 / 2)
+  const setSquare = (index) => {
+    // player = 1 if player 1; 2 if player 2
+    const player = game.getPlayerTurn();
+
+    // set element of board array to 1 or 2
+    board[index] = (player === '1') ? '1' : '2';
+  }
+
   // function to remove event listeners e.g. when a player wins
   const removeEventListeners = () => {
     const squares = document.querySelectorAll(".square");
@@ -56,30 +65,13 @@ const gameBoard = (() => {
     });
   };
 
-  // This function determines what to do when the user clicks a given square.
-  // The clicked square is passed via "index"
-  const clicked = (index) => {
-    // game.getPlayerTurn returns 1 if player 1, or 2 if player 2
-    const player = game.getPlayerTurn();
-
-    // set the element in the board to 1 or 2 depending on whose turn it was
-    board[index] = (player === '1') ? '1' : '2';
-
-    // check winner
-    game.checkWinner(index);
-
-    // decrement turn counter
-    game.changeTurn();
-    display();
-  };
-
   const getSquare = (index) => {
     return board[index];
   };
 
   return {
+    setSquare,
     display,
-    clicked,
     getSquare,
     removeEventListeners,
   };
@@ -94,6 +86,21 @@ const game = (() => {
   const getPlayerTurn = () => {
     player = (turnsLeft % 2 === 0) ? '2' : '1';
     return player;
+  };
+
+  // This function determines what to do when the user clicks a given square.
+  // The clicked square is passed via "index"
+  const clicked = (index) => {
+
+    // set the element in the board to 1 or 2 depending on whose turn it was
+    gameBoard.setSquare(index);
+
+    // check if there's a winner
+    checkWinner(index);
+
+    // decrement turn counter
+    changeTurn();
+    gameBoard.display();
   };
 
   // decrement turn counter and change the "current player" marker
@@ -192,8 +199,8 @@ const game = (() => {
 
   return {
     getPlayerTurn,
+    clicked,
     changeTurn,
-    checkWinner,
   }
 })();
 
@@ -208,7 +215,7 @@ const userPlay = (event) => {
   // console.log(`You clicked: ${clicked}`)
 
   // pass the clicked square (i.e. 0-8) to the clicked function
-  gameBoard.clicked(clickedSquare);
+  game.clicked(clickedSquare);
 }
 
 gameBoard.display();
