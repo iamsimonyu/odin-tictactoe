@@ -240,7 +240,6 @@ const game = (() => {
   }
 
   const reset = (type) => {
-    console.log("click!")
     // reset turn counter
     turnsLeft = 9;
 
