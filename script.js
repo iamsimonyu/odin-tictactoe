@@ -97,7 +97,7 @@ const game = (() => {
   // if even number of turns, it must be player 2's turn
   // If odd, it must be player 1's turn
   const getPlayerTurn = () => {
-    player = (turnsLeft % 2 === 0) ? '2' : '1';
+    const player = (turnsLeft % 2 === 0) ? '2' : '1';
     return player;
   };
 
@@ -116,6 +116,12 @@ const game = (() => {
     const outcome = checkIfWinner(index);
 
     if (outcome === 1 || outcome === 2) {
+
+      // increment player scores
+      (outcome === 1) ? player1.incrementScore() : player2.incrementScore();
+      document.querySelector('#player1score').textContent = player1.getScore();
+      document.querySelector('#player2score').textContent = player2.getScore();
+
       // display elements to show who has won
       showGameOutcome(outcome);
 
@@ -164,8 +170,8 @@ const game = (() => {
     } else {
       // if outcome isn't a tie, means there's a winner
 
-      // place a crown next to the winning player
-      document.querySelector("#playerWinner" + outcome).textContent = "👑";
+      // set crown next to the winning player to visible
+      document.querySelector("#playerWinner" + outcome).style.visibility = "visible";
 
       // set banner message above the board with winner's name, set class
       const winnerName = document.querySelector(`#playerName${outcome}`).value;
@@ -241,8 +247,8 @@ const game = (() => {
     gameOutcome.style.visibility = "hidden";
 
     // remove any crown "winning" indicators 
-    const playerWinners = document.querySelectorAll("div[id^='playerWinner']");
-    playerWinners.forEach(item => item.textContent = "");
+    const playerWinners = document.querySelectorAll(".crownMarker");
+    playerWinners.forEach(item => item.style.visibility = "hidden");
   };
 
   return {
@@ -266,6 +272,19 @@ const userPlay = (event) => {
   // pass the clicked square (i.e. 0-8) to the clicked function
   game.takeTurn(clickedSquare);
 }
+
+const player = (name) => {
+  let score = 0;
+  const getScore = () => score;
+  const incrementScore = () => score++;
+  return {
+    getScore,
+    incrementScore,
+  }
+};
+
+const player1 = player("player1");
+const player2 = player("player2");
 
 document.querySelector("#reset").addEventListener('click', game.reset);
 
