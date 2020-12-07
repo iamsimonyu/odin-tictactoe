@@ -95,17 +95,17 @@ const game = (() => {
     // set the element in the board to 1 or 2 depending on whose turn it was
     gameBoard.setSquare(index);
 
-    // check if there's a winner
-    checkWinner(index);
+    // decrease # turns left; 0 = this was the final turn, board is now full
+    turnsLeft -=1;
 
-    // decrement turn counter
-    changeTurn();
+    // check if there's a winner OR if it's a tie
+    checkGameOutcome(index);
+
     gameBoard.display();
   };
 
-  // decrement turn counter and change the "current player" marker
-  const changeTurn = () => {
-    turnsLeft -= 1;
+  // change the "current player" marker (if there is another turn remaining)
+  const changeTurnMarker = () => {
 
     // put ">" next to player whose turn it is. First, clear the ">" div
     const playerMarkers = document.querySelectorAll("div[id^='playerMarker']");
@@ -116,9 +116,6 @@ const game = (() => {
     // then, add the ">" next to player's name
     const player = getPlayerTurn();
     document.querySelector(`#playerMarker${player}`).textContent = ">";
-
-    // console.log("turns left: " + turnsLeft);
-    // console.log("--------------------")
   };
 
   // displays elements that show who has won
@@ -133,7 +130,9 @@ const game = (() => {
     winMessage.style.visibility = "visible";
   }
 
-  const checkWinner = () => {
+  // checks if a win condition has been met (3 in a row)
+  // OR if it's a tie (no-one has won and there are no more turns left)
+  const checkGameOutcome = () => {
     let winner = "";
 
     // 8 ways to win (3 columns, 3 rows, 2 diagonals)
@@ -200,7 +199,6 @@ const game = (() => {
   return {
     getPlayerTurn,
     clicked,
-    changeTurn,
   }
 })();
 
