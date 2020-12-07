@@ -1,6 +1,6 @@
 # odin-tictactoe
 
-(https://www.theodinproject.com/courses/javascript/lessons/tic-tac-toe-javascript)[https://www.theodinproject.com/courses/javascript/lessons/tic-tac-toe-javascript]
+[https://www.theodinproject.com/courses/javascript/lessons/tic-tac-toe-javascript](https://www.theodinproject.com/courses/javascript/lessons/tic-tac-toe-javascript)
 
 The factory function "Player" is used to create two player objects ("player1", "player2")
 - Each player object has a "score" property that records how many games that player has won so far
