@@ -100,21 +100,25 @@ const game = (() => {
 
     // check if there's a winner OR if it's a tie
     // outcome = 1 if P1 has won; 2 if P2 has won; tie if game over
-    const outcome = checkGameOutcome(index);
+    const outcome = checkIfWinner(index);
     console.log(`outcome: ${outcome}`);
 
     if (outcome === 1 || outcome === 2) {
       // display elements to show who has won
-      showWinner(outcome);
+      showGameOutcome(outcome);
 
       // change turns left to zero because game is over!
       game.turnsLeft = 0;
 
       // users can no longer click remaining squares because game is over!
       gameBoard.removeEventListeners();
+    } else if (turnsLeft === 0) {
+      // No winner. And, if no turns left, then it must be a tie. Show tie msg.
+      showGameOutcome("tie");
+
     }
     
-    // don't change turn marker if there's no more turns left
+    // change turn marker, unless there's no more turns left
     if (turnsLeft > 0) { changeTurnMarker() };
 
     gameBoard.display();
@@ -135,20 +139,33 @@ const game = (() => {
   };
 
   // displays elements that show who has won
-  const showWinner = (winner) => {
-    // place a crown next to the winning player
-    document.querySelector("#playerWinner" + winner).textContent = "👑";
+  const showGameOutcome = (outcome) => {
 
-    // set winner <div> message above the board
-    const winnerName = document.querySelector(`#playerName${winner}`).value;
-    const winMessage = document.querySelector(".winMessage");
-    winMessage.textContent = `${winnerName} has won!`;
-    winMessage.style.visibility = "visible";
+    // make banner visible
+    const gameOutcome = document.querySelector("#gameOutcome");
+    gameOutcome.style.visibility = "visible";
+
+    if (outcome === "tie") {
+      // set banner message above the board
+      gameOutcome.textContent = `It's a tie!`;
+      gameOutcome.classList.add('tie');
+    } else {
+      // if outcome isn't a tie, means there's a winner
+
+      // place a crown next to the winning player
+      document.querySelector("#playerWinner" + outcome).textContent = "👑";
+
+      // set banner message above the board with winner's name, set class
+      const winnerName = document.querySelector(`#playerName${outcome}`).value;
+      gameOutcome.textContent = `${winnerName} has won!`;
+      gameOutcome.classList.add('winner');
+    }
+
   }
 
   // checks if a win condition has been met (3 in a row)
   // OR if it's a tie (no-one has won and there are no more turns left)
-  const checkGameOutcome = () => {
+  const checkIfWinner = () => {
     let winner = "";
 
     // 8 ways to win (3 columns, 3 rows, 2 diagonals)

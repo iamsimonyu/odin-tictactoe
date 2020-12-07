@@ -56,12 +56,22 @@ input {
   margin-right: 0.5em;
 }
 
-.winMessage {
+.gameOutcome {
   visibility: hidden;
+  padding: 0.5em;
+  font-size: large;
+}
+
+.winner {
   color: #155724;
   background-color: #d4edda;
   border-color: #c3e6cb;
   border-radius: 0.25rem;
-  padding: 0.5em;
-  font-size: large;
+}
+
+.tie {
+  color: #0c5460;
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+  border-radius: 0.25rem;
 }
