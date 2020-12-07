@@ -6,6 +6,16 @@ const gameBoard = (() => {
     board.push('')
   }
 
+  const reset = () => {
+    // change all board array elements to '' (empty) i.e. reset the board
+    for (i = 0; i < 9; i++) {
+      board[i] = '';
+    }
+
+    // redraw the board once reset
+    display();
+  };
+
   const display = () => {
     const boardContainer = document.querySelector("#board");
 
@@ -41,8 +51,8 @@ const gameBoard = (() => {
     });
 
     // add 'click' event listeners to squares to allow users to place markers
-    // unless game is over
-    if (game.turnsLeft !== 0) {
+    // unless game is over    
+    if (game.getTurnsLeft !== 0) {
       const squares = document.querySelectorAll(".square:not(.clicked)");
       squares.forEach(square => square.addEventListener('click', userPlay));
     }
@@ -70,6 +80,7 @@ const gameBoard = (() => {
   };
 
   return {
+    reset,
     setSquare,
     display,
     getSquare,
@@ -79,6 +90,8 @@ const gameBoard = (() => {
 
 const game = (() => {
   let turnsLeft = 9;
+
+  const getTurnsLeft = () => turnsLeft;
 
   // identify whose turn it is by seeing how many turns are left in the game
   // if even number of turns, it must be player 2's turn
@@ -101,14 +114,13 @@ const game = (() => {
     // check if there's a winner OR if it's a tie
     // outcome = 1 if P1 has won; 2 if P2 has won; tie if game over
     const outcome = checkIfWinner(index);
-    console.log(`outcome: ${outcome}`);
 
     if (outcome === 1 || outcome === 2) {
       // display elements to show who has won
       showGameOutcome(outcome);
 
       // change turns left to zero because game is over!
-      game.turnsLeft = 0;
+      turnsLeft = 0;
 
       // users can no longer click remaining squares because game is over!
       gameBoard.removeEventListeners();
@@ -217,9 +229,24 @@ const game = (() => {
     }
   };
 
+  const reset = () => {
+    console.log("click!")
+    // reset turn counter
+    turnsLeft = 9;
+
+    // clear board array and redraw
+    gameBoard.reset();
+
+    // hide outcome message
+    const gameOutcome = document.querySelector("#gameOutcome");
+    gameOutcome.style.visibility = "hidden";
+  };
+
   return {
+    getTurnsLeft,
     getPlayerTurn,
     takeTurn,
+    reset,
   }
 })();
 
@@ -236,5 +263,7 @@ const userPlay = (event) => {
   // pass the clicked square (i.e. 0-8) to the clicked function
   game.takeTurn(clickedSquare);
 }
+
+document.querySelector("#reset").addEventListener('click', game.reset);
 
 gameBoard.display();
