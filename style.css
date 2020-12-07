@@ -93,7 +93,7 @@ input {
 }
 
 button {
-  margin: 1em 0em;
+  margin: 1rem;
   display: inline-block;
   font-weight: 400;
   text-align: center;
@@ -101,7 +101,7 @@ button {
   vertical-align: middle;
   user-select: none;
   border: 1px solid transparent;
-  padding: .375rem .75rem;
+  padding: .5rem 1rem;
   font-size: 1rem;
   line-height: 1.5;
   border-radius: .25rem;
@@ -110,7 +110,13 @@ button {
   background-color: #343a40;
   border-color: #343a40;
 }
+
 .crownMarker {
   visibility: hidden;
   margin: 0em 0.5em;
+}
+
+.controlButtons {
+  display: flex;
+  flex-direction: row;
 }

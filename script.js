@@ -51,7 +51,7 @@ const gameBoard = (() => {
     });
 
     // add 'click' event listeners to squares to allow users to place markers
-    // unless game is over    
+    // unless game is over
     if (game.getTurnsLeft() !== 0) {
       const squares = document.querySelectorAll(".square:not(.clicked)");
       squares.forEach(square => square.addEventListener('click', userPlay));
@@ -119,8 +119,7 @@ const game = (() => {
 
       // increment player scores
       (outcome === 1) ? player1.incrementScore() : player2.incrementScore();
-      document.querySelector('#player1score').textContent = player1.getScore();
-      document.querySelector('#player2score').textContent = player2.getScore();
+      updatePlayerScores();
 
       // display elements to show who has won
       showGameOutcome(outcome);
@@ -235,7 +234,13 @@ const game = (() => {
     }
   };
 
-  const reset = () => {
+  const updatePlayerScores = () => {
+    document.querySelector('#player1score').textContent = player1.getScore();
+    document.querySelector('#player2score').textContent = player2.getScore();
+  }
+
+  const reset = (type) => {
+    console.log("click!")
     // reset turn counter
     turnsLeft = 9;
 
@@ -249,6 +254,13 @@ const game = (() => {
     // remove any crown "winning" indicators 
     const playerWinners = document.querySelectorAll(".crownMarker");
     playerWinners.forEach(item => item.style.visibility = "hidden");
+
+    // if user has chosen to reset the whole game, reset player scores
+    if (type === "game") {
+      player1.resetScore();
+      player2.resetScore();
+      updatePlayerScores();
+    }
   };
 
   return {
@@ -277,15 +289,19 @@ const player = (name) => {
   let score = 0;
   const getScore = () => score;
   const incrementScore = () => score++;
+  const resetScore = () => { score = 0 };
   return {
     getScore,
     incrementScore,
+    resetScore,
   }
 };
 
 const player1 = player("player1");
 const player2 = player("player2");
 
-document.querySelector("#reset").addEventListener('click', game.reset);
+// use () => functionName(param) because just functionName(param) results in function running immediately
+document.querySelector("#resetRound").addEventListener('click', () => game.reset("round"));
+document.querySelector("#resetGame").addEventListener('click', () => game.reset("game"));
 
 gameBoard.display();
